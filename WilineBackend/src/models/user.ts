@@ -24,10 +24,18 @@ export const getSingleUser = async (_id: number) => {
   }
 };
 
-// export const createUser = async (values: User) => {
-//   try {
-//     const user = await pool.query(CREATE_USER, values);
-//   } catch (err) {
-//     throw err;
-//   }
-// };
+export const createUser = async (dummyData: User) => {
+  const { _id, firstname, lastname, email, phonenumber } = dummyData;
+  try {
+    const user = await pool.query(CREATE_USER, [
+      _id,
+      firstname,
+      lastname,
+      email,
+      phonenumber,
+    ]);
+    return user.rows[0];
+  } catch (err) {
+    throw err;
+  }
+};

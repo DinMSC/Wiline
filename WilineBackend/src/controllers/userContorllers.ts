@@ -1,5 +1,13 @@
-import { getUser, getUsers } from "../services/userServices";
+import { getUser, getUsers, createNewUser } from "../services/userServices";
 import { Request, Response } from "express";
+
+const dummyData = {
+  _id: 1,
+  firstname: "Delores",
+  lastname: "Mind",
+  email: "delores@wiline.com",
+  phonenumber: "456784567845678",
+};
 
 const getAllUsersController = async (req: Request, res: Response) => {
   try {
@@ -22,11 +30,15 @@ const getSingleUserController = async (req: Request, res: Response) => {
   }
 };
 
-// const createUser = async (req: Request, res:Response){
-//     try {
-//     } catch (error) {
+const createUser = async (req: Request, res: Response) => {
+  try {
+    console.log(dummyData);
+    const user = await createNewUser(dummyData);
+    res.status(201).json({ user: user });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ err: "Internal Server Error" });
+  }
+};
 
-//     }
-// }
-
-export { getAllUsersController, getSingleUserController };
+export { getAllUsersController, getSingleUserController, createUser };
