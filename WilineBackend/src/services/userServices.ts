@@ -16,9 +16,9 @@ const getUsers = async (sqlQuery: string) => {
     }
 };
 
-const getUser = async (uid: string) => {
+const getUser = async (_id: string) => {
     try {
-        const user = await getSingleUser(uid);
+        const user = await getSingleUser(_id);
         return user;
     } catch (err) {
         throw err;
@@ -34,9 +34,9 @@ const createNewUser = async (data: User) => {
     }
 };
 
-const updateUserByUid = async (uid: string, updateData: User) => {
+const updateUserByUid = async (updateData: User) => {
     try {
-        const updatedUser = await updateUser(uid, updateData);
+        const updatedUser = await updateUser(updateData);
         if (updatedUser.success) {
             return { success: true };
         }
@@ -45,9 +45,9 @@ const updateUserByUid = async (uid: string, updateData: User) => {
     }
 };
 
-const deleteUserByUid = async (uid: string) => {
+const deleteUserByUid = async (_id: string) => {
     try {
-        const deletedUser = await deleteUser(uid);
+        const deletedUser = await deleteUser(_id);
         if (deletedUser.success) {
             return { success: true };
         }

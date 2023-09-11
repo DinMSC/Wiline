@@ -1,10 +1,13 @@
 import express, { Request, Response, Application } from 'express';
 import dotenv from 'dotenv';
 import userRoutes from '../src/routes/userRoutes';
+import cors from 'cors';
 
 dotenv.config();
 
 const app: Application = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

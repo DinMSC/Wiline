@@ -10,7 +10,6 @@ import { Request, Response } from 'express';
 const getAllUsersController = async (req: Request, res: Response) => {
     try {
         const { firstname, lastname, email, phoneNumber } = req.query;
-
         let sqlQuery = 'SELECT * FROM "users" WHERE 1=1';
 
         if (firstname) {
@@ -40,8 +39,9 @@ const getAllUsersController = async (req: Request, res: Response) => {
 
 const getSingleUserController = async (req: Request, res: Response) => {
     try {
-        const uid = req.query.uid as string;
-        const user = await getUser(uid);
+        const _id = req.body._id as string;
+        console.log(_id);
+        const user = await getUser(_id);
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -63,13 +63,13 @@ const createUser = async (req: Request, res: Response) => {
 };
 
 const updateUser = async (req: Request, res: Response) => {
-    const uid = req.query.uid as string;
+    const _id = req.body._id as string;
     const updateData = req.body;
     try {
-        const updateResult = await updateUserByUid(uid, updateData);
+        const updateResult = await updateUserByUid(updateData);
 
         if (updateResult && updateResult.success) {
-            const updatedUser = await getUser(uid);
+            const updatedUser = await getUser(_id);
 
             if (!updatedUser) {
                 return res.status(404).json({ message: 'User not found' });
@@ -86,8 +86,8 @@ const updateUser = async (req: Request, res: Response) => {
 
 const deleteUser = async (req: Request, res: Response) => {
     try {
-        const uid = req.query.uid as string;
-        const deletedUser = await deleteUserByUid(uid);
+        const _id = req.body._id;
+        const deletedUser = await deleteUserByUid(_id);
         if (!deletedUser) {
             return res.status(404).json({ message: 'User not found' });
         }

@@ -16,9 +16,9 @@ export const getAllUsers = async (sqlQuery: string) => {
     }
 };
 
-export const getSingleUser = async (uid: string) => {
+export const getSingleUser = async (_id: string) => {
     try {
-        const user = await pool.query(GET_SINGLE_USER_BY_UID, [uid]);
+        const user = await pool.query(GET_SINGLE_USER_BY_UID, [_id]);
         return user.rows[0];
     } catch (err) {
         throw err;
@@ -26,10 +26,9 @@ export const getSingleUser = async (uid: string) => {
 };
 
 export const createUser = async (data: User) => {
-    const { uid, firstname, lastname, email, phonenumber } = data;
+    const { firstname, lastname, email, phonenumber } = data;
     try {
         const user = await pool.query(CREATE_USER, [
-            uid,
             firstname,
             lastname,
             email,
@@ -41,15 +40,15 @@ export const createUser = async (data: User) => {
     }
 };
 
-export const updateUser = async (uid: string, data: User) => {
-    const { firstname, lastname, email, phonenumber } = data;
+export const updateUser = async (data: User) => {
+    const { _id, firstname, lastname, email, phonenumber } = data;
     try {
         await pool.query(UPDATE_USER_BY_UID, [
             firstname,
             lastname,
             email,
             phonenumber,
-            uid,
+            _id,
         ]);
         return { success: true };
     } catch (err) {
@@ -57,9 +56,9 @@ export const updateUser = async (uid: string, data: User) => {
     }
 };
 
-export const deleteUser = async (uid: string) => {
+export const deleteUser = async (_id: string) => {
     try {
-        await pool.query(DELETE_USER, [uid]);
+        await pool.query(DELETE_USER, [_id]);
         return { success: true };
     } catch (err) {
         throw err;
